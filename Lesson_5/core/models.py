@@ -14,7 +14,7 @@ class Post(models.Model):
     likes = models.PositiveIntegerField(verbose_name='Лайки', 
                                         blank=True, 
                                         default=0)
-    
+    date = models.DateField(verbose_name='Дата', blank=True)
     
     class Meta:
         verbose_name = 'Статья'
