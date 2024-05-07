@@ -11,6 +11,10 @@ class Post(models.Model):
     status = models.CharField(max_length=2,
                               choices=Status.choices,
                               default=Status.DRAFT)
+    likes = models.PositiveIntegerField(verbose_name='Лайки', 
+                                        blank=True, 
+                                        default=0)
+    
     
     class Meta:
         verbose_name = 'Статья'
@@ -26,6 +30,8 @@ class Comment(models.Model):
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
+    on_moderation = models.BooleanField(verbose_name='На модерации',
+                                        default=True,)
 
     class Meta:
         verbose_name = 'Коммент'
