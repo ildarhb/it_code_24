@@ -1,5 +1,16 @@
 from django.db import models
 
+class Category(models.Model):
+    title = models.CharField(verbose_name='Наименования категории', max_length=150)
+
+    def __str__(self) -> str:
+        return self.title
+    
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        ordering = ['title']
+
 class Post(models.Model):
 
     class Status(models.TextChoices):
@@ -15,6 +26,10 @@ class Post(models.Model):
                                         blank=True, 
                                         default=0)
     date = models.DateField(verbose_name='Дата', blank=True)
+    photo = models.ImageField(blank=True)
+    category = models.ForeignKey(Category,
+                             on_delete=models.CASCADE,
+                             related_name='comments')
     
     class Meta:
         verbose_name = 'Статья'
@@ -22,6 +37,7 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
     
 class Comment(models.Model):
     post = models.ForeignKey(Post,
