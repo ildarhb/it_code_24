@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Category(models.Model):
     title = models.CharField(verbose_name='Наименования категории', max_length=150)
@@ -10,6 +11,10 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['title']
+    
+    def get_absolute_url(self):
+        return self.pk
+    
 
 class Post(models.Model):
 
