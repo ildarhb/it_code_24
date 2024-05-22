@@ -1,6 +1,6 @@
 from typing import Any
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
 from .models import Post, Category
 
 
@@ -35,4 +35,22 @@ class ClassBasedCategory(TemplateView):
         context['categories'] = categories
         context['category'] = category
 
+        return context
+
+
+class PostList(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'core/post_list.html'
+
+
+class PostDetail(DetailView):
+    model = Post
+    context_object_name = 'post'
+    template_name = 'core/post_detail.html'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        
+        context['info'] = 'Автор стати - Иванов'
         return context
