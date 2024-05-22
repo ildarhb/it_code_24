@@ -1,17 +1,23 @@
+from typing import Any
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic import TemplateView
 from .models import Post, Category
 
-def index(request):
-    posts = Post.objects.all()
-    categories = Category.objects.all()
-    context={
-        'posts' : posts,
-        'categories' : categories,
-        'title':'Список статей',
-    }
 
-    return render(request, template_name='core/index.html', context=context)
+class ClassBasedIndex(TemplateView):
+    template_name='core/index.html'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        
+        posts = Post.objects.all()
+        categories = Category.objects.all()
+        
+        context['posts'] = posts
+        context['categories'] = categories
+        context['title'] = 'Список статей'
+
+        return context
 
 def get_category(request, category_id):
     posts = Post.objects.filter(category=category_id)
