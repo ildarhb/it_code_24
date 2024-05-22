@@ -34,7 +34,7 @@ class Post(models.Model):
     photo = models.ImageField(blank=True)
     category = models.ForeignKey(Category,
                              on_delete=models.CASCADE,
-                             related_name='comments')
+                             related_name='category')
     
     class Meta:
         verbose_name = 'Статья'
