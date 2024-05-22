@@ -19,15 +19,20 @@ class ClassBasedIndex(TemplateView):
 
         return context
 
-def get_category(request, category_id):
-    posts = Post.objects.filter(category=category_id)
-    categories = Category.objects.all()
-    category = Category.objects.get(pk=category_id)
-    context={
-        'posts' : posts,
-        'categories' : categories,
-        'category' : category,
-    }
-    print(context)
 
-    return render(request, template_name='core/category.html', context=context)
+class ClassBasedCategory(TemplateView):
+    template_name='core/category.html'
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        
+        category_id = self.kwargs.get('category_id', None)
+        posts = Post.objects.filter(category=category_id)
+        categories = Category.objects.all()
+        category = Category.objects.get(pk=category_id)
+        
+        context['posts'] = posts
+        context['categories'] = categories
+        context['category'] = category
+
+        return context
