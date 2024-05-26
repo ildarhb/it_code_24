@@ -2,6 +2,12 @@ from typing import Any
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView
 from .models import Post, Category
+from .serilizers import PostSerializer
+from .filters import PostFilter
+
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
 
 
 class ClassBasedIndex(TemplateView):
@@ -54,3 +60,24 @@ class PostDetail(DetailView):
         
         context['info'] = 'Автор стати - Иванов'
         return context
+    
+
+class PostAPIView(APIView):
+    def get(self, request):
+        qs = Post.objects.all()
+        serializer = PostSerializer(qs, many=True)
+        
+        return Response(data=serializer.data)
+    
+    def post(self, request):
+        serializer = PostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'message': 'OK'})
+
+
+class PostModelViewSet(ModelViewSet):
+    qs = Post.objects.all()
+    filterset_class = PostFilter
+    serializer_class = PostSerializer

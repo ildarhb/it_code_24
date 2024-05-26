@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'django_filters',
+    'rest_framework',
 
     'core.apps.CoreConfig',
 ]
