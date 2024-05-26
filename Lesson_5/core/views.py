@@ -78,6 +78,6 @@ class PostAPIView(APIView):
 
 
 class PostModelViewSet(ModelViewSet):
-    qs = Post.objects.all()
+    queryset = Post.objects.all()
     filterset_class = PostFilter
     serializer_class = PostSerializer
